@@ -22,3 +22,15 @@ function steamroller(arr) {
          
   return arr;
 }
+
+/////////////////////////////////
+//////BINARY AGENTS///////////////
+
+function binaryAgent(str) {
+  var binaryArr = str.split(" ");
+  var codes = [];
+  binaryArr.forEach(function(binaryCode) {
+    codes.push(parseInt(binaryCode,2));
+  });
+  return String.fromCharCode.apply(String, codes);
+}
