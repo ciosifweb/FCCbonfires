@@ -34,3 +34,23 @@ function binaryAgent(str) {
   });
   return String.fromCharCode.apply(String, codes);
 }
+
+//////////////////////////////////
+///////PAIRWISE///////////////////
+
+function pairwise(arr, arg) {
+  var len = arr.length;
+  var paired = new Array(len);
+  var sum = 0;
+  
+  for (var i = 0; i < len; i++) {
+    for(var j = 0; j < len; j++) {
+      if (!paired[i] && !paired[j] && i !=j && arr[i] + arr[j] === arg) {
+        paired[i] = 1;
+        paired[j] = 1;
+        sum = sum + i + j;
+      }
+    }
+  }
+  return sum;
+}
