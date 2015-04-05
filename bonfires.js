@@ -54,3 +54,19 @@ function pairwise(arr, arg) {
   }
   return sum;
 }
+
+///////////////////////////////////
+/////MAP THE DEBRIS//////////////
+
+function orbitalPeriod(arr) {
+  var GM = 398600.4418;
+  var earthRadius = 6367.4447;
+  var results = [];
+  
+  results = arr.map(function(item) {
+    var axis = item.avgAlt + earthRadius;
+    var period = Math.PI*2*Math.sqrt(Math.pow(axis,3)/GM);
+    return {name: item.name, orbitalPeriod: Math.round(period)};
+  });
+  return results;
+}
