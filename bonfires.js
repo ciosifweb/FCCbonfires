@@ -195,3 +195,40 @@ function drawer(price, cash, cid) {
     
     
 }
+
+//////////////////////////////////////
+/////INVENTORY UPDATE////////////////
+
+function findIndex (item, arr) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i][1] == item) {return i;}
+        
+      }
+    return -1;
+    }
+
+function inventory(arr1, arr2) {
+    
+   arr1.forEach(function(inventoryPair) {
+       var item = inventoryPair[1];
+       var val = inventoryPair[0];
+       var foundIndex = findIndex(item, arr2);
+     
+      if (foundIndex != -1) {
+        console.log(arr2[foundIndex]);
+        arr2[foundIndex][0]  += val;
+      }  
+     else {
+       arr2.push(inventoryPair);
+     }
+   });
+  
+  //sort results
+  arr2.sort(function(a,b) {
+    if (a[1] > b[1]) { return 1;}
+    else if (a[1] === b[1]) {return 0;}
+    else {return -1;}
+  });
+ 
+  return arr2;
+}
