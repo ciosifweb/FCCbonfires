@@ -70,3 +70,13 @@ function orbitalPeriod(arr) {
   });
   return results;
 }
+
+////////////////////////////////////
+//////TELEPHONE CHECK//////////////
+
+function telephoneCheck(str) {
+  // Good luck!
+  var re = /^1* *\(*[2-9]{3}\)*[\s-]*[2-9]{3}[\s-]*[2-9]{4}$/g;
+  if (str.match(re)) return true;
+  else return false;
+}
