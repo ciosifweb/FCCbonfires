@@ -109,45 +109,42 @@ function drawer(price, cash, cid) {
                     "0.05":"NICKEL",
                     "0.01": "PENNY"
                    };
-  var searchOrder = [];
   var searchValues = [];
+  var total = 0;
   
-  //create searchOrder
+  //create helper array
   for (var key in cashValues) {
    if (cashValues.hasOwnProperty(key)) {
-       
-     searchOrder.push(key);
+  
      searchValues.push(cashValues[key]);
        
      }
     }
  
-
- 
-  var calculateCID = function(cid) {
-    cid.reduce(function(a,b) {
-      return a[1]+b[1];
-    },0);};
+  //calculate total cash in cash register
+    cid.forEach(function(arr) {
+      total += arr[1];
+    });
     
-  change = cash - price;
-  var total = calculateCID(cid);
-  console.log(total);
-  
+  change = cash - price;  
+
+  //check if closed or insufficient funds
   if (change > total) {
     return "Insufficient Funds";
   } else if (change === total) {
     return "Closed";
   } else {
     
-    // sord cash-in-drawer
+    // sort cash-in-drawer by bill type (descending)
     cid.sort(function(a,b) {
       if (cashValues[a[0]] > cashValues[b[0]]) {return -1;}
       else {return 1;}
     });
     
     
-    // find largest bill type in change
+    // find largest bill type in the returned change
     var maxBillVal = 0.01;
+    //position of largest bill in the helper array
     var startIndex;
     
     searchValues.forEach(function(value, index) {
@@ -156,32 +153,35 @@ function drawer(price, cash, cid) {
         startIndex = index;
       }
     });
-   
     
-    
+    //initialize array for returned change
     var changeInBills = [];
     var remainingChange = change;
     var val;
     var name;
+    var k = -1;
     for (var i = startIndex; i < searchValues.length; i++) {
       //as long as the amount of change remaining is bigger than the current bill/coin type
-      
+      // get bill value and name;
       val = searchValues[i];
       name = reverseValues[val];
       
+      //if change to give is larger than the bill type, take a bill/coin out of the drawer
+      if(remainingChange >= val) {
+      changeInBills.push([name,0]); 
+      k++;}
       
-      
-      changeInBills.push([name,0]);
-      while (remainingChange >= val && cid[i][1] >= 0) {
+      //take bills out of the same drawer until the value to be returned is smaller than the bill type value
+      while (remainingChange >= val && cid[i][1] > 0) {
         remainingChange -= val;
-        remainingChange = remainingChange.toPrecision(2);
-        console.log(remainingChange);
+        
+        remainingChange = remainingChange.toPrecision(4);
+       
         cid[i][1] -= val;
         cid[i][1] = cid[i][1].toPrecision(2);
         
-        changeInBills[i-startIndex][1] += val;
-        console.log(changeInBills[i-startIndex]);
-        console.log(remainingChange);
+        changeInBills[k][1] += val; 
+    
         
         
         if(remainingChange == 0) {return changeInBills;}
@@ -195,4 +195,3 @@ function drawer(price, cash, cid) {
     
     
 }
-
