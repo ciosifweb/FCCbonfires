@@ -232,3 +232,44 @@ function inventory(arr1, arr2) {
  
   return arr2;
 }
+
+//////////////////////////////////////
+////NO REPEATS PLEASE///////////////
+
+function permAlone(str) {
+
+  function checkString(input) {
+    for (var i = 0; i < input.length - 1; i++) {
+      if (input.charAt(i) === input.charAt(i+1)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  //permutation code
+  var permuted;
+  var usedChars = [];
+  var count = 0;
+  
+  function permute(input) {
+    var i, ch, chars = input.split("");
+    for (i = 0; i < chars.length; i++) {
+      ch = chars.splice(i, 1);
+      usedChars.push(ch);
+      if (chars.length === 0) {
+        permuted = usedChars.join("");
+        if (checkString(permuted)) {
+          count++;
+        }
+       }
+      permute(chars.join(""));
+      chars.splice(i, 0, ch);
+      usedChars.pop();
+    }
+  return count;
+  }
+  return permute(str);
+}
+
+permAlone('aab');
