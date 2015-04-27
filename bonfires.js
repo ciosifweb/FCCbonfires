@@ -273,3 +273,81 @@ function permAlone(str) {
 }
 
 permAlone('aab');
+
+
+///////////////////////////////////////
+/////FRIENDLY DATES////////////////////
+
+function friendly(dateRange) {
+  
+  var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+  var dateTerm = ["st", "nd", "rd"];
+  
+  function padDay(val) {
+    if (val > 3) {
+      return val + "th";
+    } else {
+      return val + dateTerm[val-1];
+    }
+  }
+  
+  var res1;
+  var res2;
+  var sameYear;
+  var sameMonth;
+  var sameDay;
+  var consecutiveYear;
+    
+  var start = new Date(dateRange[0]);
+  var end = new Date(dateRange[1]);
+  
+  var startDay = start.getDate();
+  var startYear = start.getFullYear();
+  var startMonth = start.getMonth();
+  
+  var endDay = end.getDate();
+  var endYear = end.getFullYear();
+  var endMonth = end.getMonth();
+
+  
+  var yearDiff = endYear - startYear;
+  var monthDiff = endMonth - startMonth;
+  var dateDiff = endDay - startDay;
+  
+  if (monthDiff < 0 && yearDiff == 1) {
+    consecutiveYear = true;
+  }
+  
+  sameYear = (yearDiff === 0);
+  sameMonth = (monthDiff === 0);
+  sameDay = (dateDiff === 0);
+  
+  if (consecutiveYear) {
+    res1 = monthNames[startMonth] + " " + padDay(startDay);
+    res2 = monthNames[endMonth] + " " + padDay(endDay);
+    return [res1, res2];
+  }
+  
+  if (sameYear && sameDay && sameMonth) {
+    res1 = monthNames[startMonth] + " " + padDay(startDay) + ", " + startYear;
+    return [res1];
+  } else if (sameYear && sameMonth) {
+    res1 = monthNames[startMonth] + " " + padDay(startDay);
+    res2 = padDay(endDay);
+    return [res1, res2];
+  } else if (sameYear) {
+    res1 = monthNames[startMonth] + " " + padDay(startDay);
+    res2 = monthNames[endMonth] + " " + padDay(endDay) + ", " + endYear;
+    return [res1, res2];
+  } else {
+    res1 = monthNames[startMonth] + " " + padDay(startDay) + ", " + startYear;
+    res2 = monthNames[endMonth] + " " + padDay(endDay) + ", " + endYear;
+    return [res1, res2];
+  }
+
+  
+}
+
+friendly(['2015-07-01', '2015-07-04']);
